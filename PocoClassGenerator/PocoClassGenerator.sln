@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocoClassGenerator", "PocoClassGenerator\PocoClassGenerator.csproj", "{72D78402-0126-4668-BA6D-C6BE199BE83D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocoClassGeneratorTests", "PocoClassGeneratorTests\PocoClassGeneratorTests.csproj", "{740C345F-38A3-4A8A-ABFF-A12059676761}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18B2D2A8-03DF-4114-A0CB-E9D311AEFCCF}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\Changelog.md = ..\Changelog.md
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72D78402-0126-4668-BA6D-C6BE199BE83D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72D78402-0126-4668-BA6D-C6BE199BE83D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72D78402-0126-4668-BA6D-C6BE199BE83D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72D78402-0126-4668-BA6D-C6BE199BE83D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{740C345F-38A3-4A8A-ABFF-A12059676761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740C345F-38A3-4A8A-ABFF-A12059676761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740C345F-38A3-4A8A-ABFF-A12059676761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740C345F-38A3-4A8A-ABFF-A12059676761}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26724ED6-9907-4DE6-8ACE-F57485BA7EF2}
+	EndGlobalSection
+EndGlobal

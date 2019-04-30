@@ -10,7 +10,11 @@ PocoClassGenerator is based on `Necroskillz`'s POCO Generator [Generate C# POCOs
 
 ### GetStart
 
-👇First :  Copy&Paste [PocoClassGenerator.cs](https://github.com/shps951023/PocoClassGenerator/blob/master/PocoClassGenerator.cs) Code to your project or LINQPad.
+👇First :  Copy&Paste [PocoClassGenerator.cs](PocoClassGenerator/PocoClassGenerator/PocoClassGenerator.cs) Code to your project or LINQPad.  
+or Install from [NuGet](https://www.nuget.org/packages/PocoClassGenerator/)
+```cmd
+PM> install-package PocoClassGenerator
+```
 
 👇Second :  Use Connection to call `GenerateAllTables` and then print it.
 ```C#

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net40;net45;net451;net46;netstandard2.0;</TargetFrameworks>
+
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <Authors>ITWeiHan、Necroskillz</Authors>
+    <Description>More Details in Github Link : [Mini Dapper's POCO Class Generator](https://github.com/shps951023/PocoClassGenerator)</Description>
+    <Copyright>©2019 WeiHan Lin</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/shps951023/PocoClassGenerator</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/2019-01-17.13.18.32-image.png</PackageIconUrl>
+
+    <AssemblyVersion>0.9.1</AssemblyVersion>
+    <FileVersion>0.9.1</FileVersion>
+    <Version>0.9.1</Version>
+    <PackageId>PocoClassGenerator</PackageId>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Product>PocoClassGenerator</Product>
+    <PackageTags>PocoClassGenerator,SQL,Mini,Easy</PackageTags>
+    <RepositoryType>Github</RepositoryType>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shps951023/PocoClassGenerator</RepositoryUrl>
+  </PropertyGroup>
+</Project>
