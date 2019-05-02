@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocoClassGenerator", "PocoClassGenerator\PocoClassGenerator.csproj", "{72D78402-0126-4668-BA6D-C6BE199BE83D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocoClassGenerator", "PocoClassGenerator\PocoClassGenerator.csproj", "{72D78402-0126-4668-BA6D-C6BE199BE83D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocoClassGeneratorTests", "PocoClassGeneratorTests\PocoClassGeneratorTests.csproj", "{740C345F-38A3-4A8A-ABFF-A12059676761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocoClassGeneratorTests", "PocoClassGeneratorTests\PocoClassGeneratorTests.csproj", "{740C345F-38A3-4A8A-ABFF-A12059676761}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18B2D2A8-03DF-4114-A0CB-E9D311AEFCCF}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Changelog.md = ..\Changelog.md
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
+		..\README_ZH_CH.md = ..\README_ZH_CH.md
 	EndProjectSection
 EndProject
 Global
