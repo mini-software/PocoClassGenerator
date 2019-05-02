@@ -16,6 +16,41 @@ namespace PocoClassGeneratorTests
         }
 
         [Fact]
+        public void GenerateClassTest()
+        {
+            using (var conn = GetConnection())
+            {
+                var result = conn.GenerateClass("select * from table1");
+                Console.WriteLine(result);
+
+                Assert.Contains("public class table1", result);
+            }
+
+            using (var conn = GetConnection())
+            {
+                var result = conn.GenerateClass("select * from table1");
+                Console.WriteLine(result);
+
+                Assert.Contains("public class table1", result);
+            }
+
+            using (var conn = GetConnection())
+            {
+                var result = conn.GenerateClass("with cte as (select 1 id , 'weihan' name) select * from cte;");
+                Console.WriteLine(result);
+
+                Assert.Contains("public class Info", result);
+            }
+            using (var conn = GetConnection())
+            {
+                var result = conn.GenerateClass("with cte as (select 1 id , 'weihan' name) select * from cte;", "CteModel");
+                Console.WriteLine(result);
+
+                Assert.Contains("public class CteModel", result);
+            }
+        }
+
+        [Fact]
         public void GenerateAllTables()
         {
             using (var conn = GetConnection())
