@@ -32,9 +32,31 @@ using (var connection = Connection)
 
 ![20190430141947-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190430141947-image.png)
 
+#### Support Dapper Contrib POCO Class
+- Just call method with `GeneratorBehavior.DapperContrib`
 
-#### Generate one class by dynamic sql
+```C#
+using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.DapperContrib);
+    Console.WriteLine(result);
+}
+```
+**The Online Demo : [POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle](https://dotnetfiddle.net/yeuK1E)
+![20190502132948-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190502132948-image.png)**
 
+#### Generate one class by sql
+
+1. Generate one class
+```C#
+using (var connection = Connection)
+{
+	var classCode = connection.GenerateClass("select * from Table");
+	Console.WriteLine(classCode);
+}
+```
+
+2. Specify class name
 ```C#
 using (var connection = Connection)
 {

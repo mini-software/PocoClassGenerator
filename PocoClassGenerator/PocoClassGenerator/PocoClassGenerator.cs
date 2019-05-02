@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -63,7 +62,9 @@ public static class PocoClassGenerator
     #endregion
 
     public static string GenerateAllTables(this System.Data.Common.DbConnection connection, GeneratorBehavior generatorBehavior)
-         => connection.GenerateAllTables(((generatorBehavior & GeneratorBehavior.View) != 0) ? true : false, generatorBehavior);
+    {
+        return connection.GenerateAllTables(((generatorBehavior & GeneratorBehavior.View) != 0) ? true : false, generatorBehavior);
+    }
 
     public static string GenerateAllTables(this System.Data.Common.DbConnection connection, bool containsView = false, GeneratorBehavior generatorBehavior = GeneratorBehavior.Default)
     {
@@ -92,7 +93,9 @@ public static class PocoClassGenerator
     }
 
     public static string GenerateClass(this IDbConnection connection, string sql, GeneratorBehavior generatorBehavior)
-         => connection.GenerateClass(sql, null, generatorBehavior);
+    {
+        return connection.GenerateClass(sql, null, generatorBehavior);
+    }
 
     public static string GenerateClass(this IDbConnection connection, string sql, string className = null, GeneratorBehavior generatorBehavior = GeneratorBehavior.Default)
     {
