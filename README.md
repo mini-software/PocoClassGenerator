@@ -8,7 +8,7 @@ PocoClassGenerator is started with `Necroskillz`'s POCO Generator [Generate C# P
 ### Features
 
 - Support current DataBase all tables and views generate POCO class code
-- Support `Dapper.Contrib`
+- Support [Dapper.Contrib](https://github.com/StackExchange/Dapper/tree/master/Dapper.Contrib)
 - Support mutiple RDBMS : `sqlserver,oracle,mysql,postgresql`
 - mini and faster (only in 5 seconds generate 100 tables code)
 - Use appropriate dialect schema table SQL for each database query
