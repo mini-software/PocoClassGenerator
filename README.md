@@ -3,11 +3,12 @@
 
 ---
 
-PocoClassGenerator is based on `Necroskillz`'s POCO Generator [Generate C# POCOs from SQL statement in LINQPad ](http://www.necronet.org/archive/2012/10/09/generate-c-pocos-from-sql-statement-in-linqpad.aspx)
+PocoClassGenerator is started with `Necroskillz`'s POCO Generator [Generate C# POCOs from SQL statement in LINQPad ](http://www.necronet.org/archive/2012/10/09/generate-c-pocos-from-sql-statement-in-linqpad.aspx)
 
 ### Features
 
 - Support current DataBase all tables and views generate POCO class code
+- Support `Dapper.Contrib`
 - Support mutiple RDBMS : `sqlserver,oracle,mysql,postgresql`
 - mini and faster (only in 5 seconds generate 100 tables code)
 - Use appropriate dialect schema table SQL for each database query
@@ -44,6 +45,35 @@ using (var conn = GetConnection())
 ```
 **The Online Demo : [POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle](https://dotnetfiddle.net/yeuK1E)
 ![20190502132948-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190502132948-image.png)**
+
+#### Generate View
+```C#
+using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.View);
+    Console.WriteLine(result);
+}
+```
+
+#### Generate Comment
+
+```C#
+using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.Comment);
+    Console.WriteLine(result);
+}
+```
+
+#### Generate Comment and View and Dapper.Contrib
+
+```C#
+using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.Comment | GeneratorBehavior.View | GeneratorBehavior.DapperContrib);
+    Console.WriteLine(result);
+}
+```
 
 #### Generate one class by sql
 
