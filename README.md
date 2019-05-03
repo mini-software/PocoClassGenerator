@@ -57,12 +57,22 @@ using (var conn = GetConnection())
 }
 ```
 
-#### Generate Comment and Dapper.Contrib
+#### Generate View
 
 ```C#
 using (var conn = GetConnection())
 {
-    var result = conn.GenerateAllTables(GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
+    var result = conn.GenerateAllTables(GeneratorBehavior.View);
+    Console.WriteLine(result);
+}
+```
+
+#### Generate View and Comment and Dapper.Contrib
+
+```C#
+using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.View | GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
     Console.WriteLine(result);
 }
 ```
