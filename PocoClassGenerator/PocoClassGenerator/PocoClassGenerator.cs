@@ -18,47 +18,47 @@ public static class PocoClassGenerator
 {
     #region Property
     private static readonly Dictionary<Type, string> TypeAliases = new Dictionary<Type, string> {
-          { typeof(int), "int" },
-          { typeof(short), "short" },
-          { typeof(byte), "byte" },
-          { typeof(byte[]), "byte[]" },
-          { typeof(long), "long" },
-          { typeof(double), "double" },
-          { typeof(decimal), "decimal" },
-          { typeof(float), "float" },
-          { typeof(bool), "bool" },
-          { typeof(string), "string" }
-     };
+            { typeof(int), "int" },
+            { typeof(short), "short" },
+            { typeof(byte), "byte" },
+            { typeof(byte[]), "byte[]" },
+            { typeof(long), "long" },
+            { typeof(double), "double" },
+            { typeof(decimal), "decimal" },
+            { typeof(float), "float" },
+            { typeof(bool), "bool" },
+            { typeof(string), "string" }
+      };
 
     private static readonly Dictionary<string, string> QuerySqls = new Dictionary<string, string> {
-          {"sqlconnection", "select  *  from [{0}] where 1=2" },
-          {"sqlceserver", "select  *  from [{0}] where 1=2" },
-          {"sqliteconnection", "select  *  from [{0}] where 1=2" },
-          {"oracleconnection", "select  *  from \"{0}\" where 1=2" },
-          {"mysqlconnection", "select  *  from `{0}` where 1=2" },
-          {"npgsqlconnection", "select  *  from \"{0}\" where 1=2" }
-     };
+            {"sqlconnection", "select  *  from [{0}] where 1=2" },
+            {"sqlceserver", "select  *  from [{0}] where 1=2" },
+            {"sqliteconnection", "select  *  from [{0}] where 1=2" },
+            {"oracleconnection", "select  *  from \"{0}\" where 1=2" },
+            {"mysqlconnection", "select  *  from `{0}` where 1=2" },
+            {"npgsqlconnection", "select  *  from \"{0}\" where 1=2" }
+      };
 
     private static readonly Dictionary<string, string> SchemaSqls = new Dictionary<string, string> {
-          {"sqlconnection", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_TYPE = 'BASE TABLE'" },
-          {"sqlceserver", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES  where TABLE_TYPE = 'BASE TABLE'" },
-          {"sqliteconnection", "SELECT name FROM sqlite_master where type = 'table'" },
-          {"oracleconnection", "select TABLE_NAME from USER_TABLES where table_name not in (select View_name from user_views)" },
-          {"mysqlconnection", "select TABLE_NAME from  information_schema.tables where table_type = 'BASE TABLE'" },
-          {"npgsqlconnection", "select table_name from information_schema.tables where table_type = 'BASE TABLE'" }
-     };
+            {"sqlconnection", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_TYPE = 'BASE TABLE'" },
+            {"sqlceserver", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES  where TABLE_TYPE = 'BASE TABLE'" },
+            {"sqliteconnection", "SELECT name FROM sqlite_master where type = 'table'" },
+            {"oracleconnection", "select TABLE_NAME from USER_TABLES where table_name not in (select View_name from user_views)" },
+            {"mysqlconnection", "select TABLE_NAME from  information_schema.tables where table_type = 'BASE TABLE'" },
+            {"npgsqlconnection", "select table_name from information_schema.tables where table_type = 'BASE TABLE'" }
+      };
 
 
     private static readonly HashSet<Type> NullableTypes = new HashSet<Type> {
-          typeof(int),
-          typeof(short),
-          typeof(long),
-          typeof(double),
-          typeof(decimal),
-          typeof(float),
-          typeof(bool),
-          typeof(DateTime)
-     };
+            typeof(int),
+            typeof(short),
+            typeof(long),
+            typeof(double),
+            typeof(decimal),
+            typeof(float),
+            typeof(bool),
+            typeof(DateTime)
+      };
     #endregion
 
     public static string GenerateAllTables(this System.Data.Common.DbConnection connection, GeneratorBehavior generatorBehavior)
@@ -86,7 +86,7 @@ public static class PocoClassGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace Models { ");
         tables.ForEach(table => sb.Append(connection.GenerateClass(
-             string.Format(QuerySqls[conneciontName], table), generatorBehavior: generatorBehavior
+              string.Format(QuerySqls[conneciontName], table), generatorBehavior: generatorBehavior
         )));
         sb.AppendLine("}");
         return sb.ToString();
@@ -124,26 +124,27 @@ public static class PocoClassGenerator
                             builder.AppendFormat("	[Dapper.Contrib.Extensions.Table(\"{0}\")]{1}", tableName, Environment.NewLine);
                         }
 
-                        builder.AppendFormat("	public class {0}{1}", tableName, Environment.NewLine);
+                        builder.AppendFormat("	public class {0}{1}", tableName.Replace(" ", ""), Environment.NewLine);
                         builder.AppendLine("	{");
                     }
 
 
                     var type = (Type)row["DataType"];
-                    var name = TypeAliases.ContainsKey(type) ? TypeAliases[type] : type.Name;
+                    var name = TypeAliases.ContainsKey(type) ? TypeAliases[type] : type.FullName;
                     var isNullable = (bool)row["AllowDBNull"] && NullableTypes.Contains(type);
                     var collumnName = (string)row["ColumnName"];
 
                     if ((generatorBehavior & GeneratorBehavior.Comment) != 0)
                     {
                         var comments = new[] { "DataTypeName", "IsUnique", "IsKey", "IsAutoIncrement", "IsReadOnly" }
-                             .Select(s => {
-                                 if (row[s] is bool && ((bool)row[s]))
-                                     return s;
-                                 if (row[s] is string && !string.IsNullOrWhiteSpace((string)row[s]))
-                                     return string.Format(" {0} : {1} ", s, row[s]);
-                                 return null;
-                             }).Where(w => w != null).ToArray();
+                              .Select(s =>
+                              {
+                                  if (row[s] is bool && ((bool)row[s]))
+                                      return s;
+                                  if (row[s] is string && !string.IsNullOrWhiteSpace((string)row[s]))
+                                      return string.Format(" {0} : {1} ", s, row[s]);
+                                  return null;
+                              }).Where(w => w != null).ToArray();
                         var sComment = string.Join(" , ", comments);
 
                         builder.AppendFormat("		/// <summary>{0}</summary>{1}", sComment, Environment.NewLine);
@@ -161,7 +162,7 @@ public static class PocoClassGenerator
                             builder.AppendLine("		[Dapper.Contrib.Extensions.Computed]");
                     }
 
-                    builder.AppendLine(string.Format("		public {0}{1} {2} {{ get; set; }}", name.Replace(" ", ""), isNullable ? "?" : string.Empty, collumnName));
+                    builder.AppendLine(string.Format("		public {0}{1} {2} {{ get; set; }}", name, isNullable ? "?" : string.Empty, collumnName));
                 }
 
                 builder.AppendLine("	}");
