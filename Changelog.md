@@ -1,3 +1,6 @@
+### version 0.9.4
+- [X] Remove View Support
+
 ### version 0.9.3
 - [X] Fix : Generate Class Name By Full Name To Avoid Not Using Problem
 - [X] Fix : If table/view name contains white space then replace it by empty string

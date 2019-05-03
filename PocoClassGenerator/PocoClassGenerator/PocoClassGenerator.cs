@@ -9,64 +9,58 @@ using System.Text.RegularExpressions;
 public enum GeneratorBehavior
 {
     Default = 0x0,
-    View = 0x1,
-    DapperContrib = 0x4,
-    Comment = 0x8
+    DapperContrib = 0x1,
+    Comment = 0x2
 }
 
 public static class PocoClassGenerator
 {
     #region Property
     private static readonly Dictionary<Type, string> TypeAliases = new Dictionary<Type, string> {
-            { typeof(int), "int" },
-            { typeof(short), "short" },
-            { typeof(byte), "byte" },
-            { typeof(byte[]), "byte[]" },
-            { typeof(long), "long" },
-            { typeof(double), "double" },
-            { typeof(decimal), "decimal" },
-            { typeof(float), "float" },
-            { typeof(bool), "bool" },
-            { typeof(string), "string" }
-      };
+               { typeof(int), "int" },
+               { typeof(short), "short" },
+               { typeof(byte), "byte" },
+               { typeof(byte[]), "byte[]" },
+               { typeof(long), "long" },
+               { typeof(double), "double" },
+               { typeof(decimal), "decimal" },
+               { typeof(float), "float" },
+               { typeof(bool), "bool" },
+               { typeof(string), "string" }
+       };
 
     private static readonly Dictionary<string, string> QuerySqls = new Dictionary<string, string> {
-            {"sqlconnection", "select  *  from [{0}] where 1=2" },
-            {"sqlceserver", "select  *  from [{0}] where 1=2" },
-            {"sqliteconnection", "select  *  from [{0}] where 1=2" },
-            {"oracleconnection", "select  *  from \"{0}\" where 1=2" },
-            {"mysqlconnection", "select  *  from `{0}` where 1=2" },
-            {"npgsqlconnection", "select  *  from \"{0}\" where 1=2" }
-      };
+               {"sqlconnection", "select  *  from [{0}] where 1=2" },
+               {"sqlceserver", "select  *  from [{0}] where 1=2" },
+               {"sqliteconnection", "select  *  from [{0}] where 1=2" },
+               {"oracleconnection", "select  *  from \"{0}\" where 1=2" },
+               {"mysqlconnection", "select  *  from `{0}` where 1=2" },
+               {"npgsqlconnection", "select  *  from \"{0}\" where 1=2" }
+       };
 
-    private static readonly Dictionary<string, string> SchemaSqls = new Dictionary<string, string> {
-            {"sqlconnection", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_TYPE = 'BASE TABLE'" },
-            {"sqlceserver", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES  where TABLE_TYPE = 'BASE TABLE'" },
-            {"sqliteconnection", "SELECT name FROM sqlite_master where type = 'table'" },
-            {"oracleconnection", "select TABLE_NAME from USER_TABLES where table_name not in (select View_name from user_views)" },
-            {"mysqlconnection", "select TABLE_NAME from  information_schema.tables where table_type = 'BASE TABLE'" },
-            {"npgsqlconnection", "select table_name from information_schema.tables where table_type = 'BASE TABLE'" }
-      };
+    private static readonly Dictionary<string, string> TableSchemaSqls = new Dictionary<string, string> {
+               {"sqlconnection", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_TYPE = 'BASE TABLE'" },
+               {"sqlceserver", "select TABLE_NAME from INFORMATION_SCHEMA.TABLES  where TABLE_TYPE = 'BASE TABLE'" },
+               {"sqliteconnection", "SELECT name FROM sqlite_master where type = 'table'" },
+               {"oracleconnection", "select TABLE_NAME from USER_TABLES where table_name not in (select View_name from user_views)" },
+               {"mysqlconnection", "select TABLE_NAME from  information_schema.tables where table_type = 'BASE TABLE'" },
+               {"npgsqlconnection", "select table_name from information_schema.tables where table_type = 'BASE TABLE'" }
+       };
 
 
     private static readonly HashSet<Type> NullableTypes = new HashSet<Type> {
-            typeof(int),
-            typeof(short),
-            typeof(long),
-            typeof(double),
-            typeof(decimal),
-            typeof(float),
-            typeof(bool),
-            typeof(DateTime)
-      };
+               typeof(int),
+               typeof(short),
+               typeof(long),
+               typeof(double),
+               typeof(decimal),
+               typeof(float),
+               typeof(bool),
+               typeof(DateTime)
+       };
     #endregion
 
-    public static string GenerateAllTables(this System.Data.Common.DbConnection connection, GeneratorBehavior generatorBehavior)
-    {
-        return connection.GenerateAllTables(((generatorBehavior & GeneratorBehavior.View) != 0) ? true : false, generatorBehavior);
-    }
-
-    public static string GenerateAllTables(this System.Data.Common.DbConnection connection, bool containsView = false, GeneratorBehavior generatorBehavior = GeneratorBehavior.Default)
+    public static string GenerateAllTables(this System.Data.Common.DbConnection connection, GeneratorBehavior generatorBehavior = GeneratorBehavior.Default)
     {
         if (connection.State != ConnectionState.Open)
             connection.Open();
@@ -75,7 +69,7 @@ public static class PocoClassGenerator
         var tables = new List<string>();
         using (var command = connection.CreateCommand())
         {
-            command.CommandText = containsView ? Regex.Split(SchemaSqls[conneciontName], "where")[0] : SchemaSqls[conneciontName];
+            command.CommandText = TableSchemaSqls[conneciontName];
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -86,7 +80,7 @@ public static class PocoClassGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace Models { ");
         tables.ForEach(table => sb.Append(connection.GenerateClass(
-              string.Format(QuerySqls[conneciontName], table), generatorBehavior: generatorBehavior
+               string.Format(QuerySqls[conneciontName], table), generatorBehavior: generatorBehavior
         )));
         sb.AppendLine("}");
         return sb.ToString();
@@ -137,14 +131,14 @@ public static class PocoClassGenerator
                     if ((generatorBehavior & GeneratorBehavior.Comment) != 0)
                     {
                         var comments = new[] { "DataTypeName", "IsUnique", "IsKey", "IsAutoIncrement", "IsReadOnly" }
-                              .Select(s =>
-                              {
-                                  if (row[s] is bool && ((bool)row[s]))
-                                      return s;
-                                  if (row[s] is string && !string.IsNullOrWhiteSpace((string)row[s]))
-                                      return string.Format(" {0} : {1} ", s, row[s]);
-                                  return null;
-                              }).Where(w => w != null).ToArray();
+                               .Select(s =>
+                               {
+                                   if (row[s] is bool && ((bool)row[s]))
+                                       return s;
+                                   if (row[s] is string && !string.IsNullOrWhiteSpace((string)row[s]))
+                                       return string.Format(" {0} : {1} ", s, row[s]);
+                                   return null;
+                               }).Where(w => w != null).ToArray();
                         var sComment = string.Join(" , ", comments);
 
                         builder.AppendFormat("		/// <summary>{0}</summary>{1}", sComment, Environment.NewLine);
