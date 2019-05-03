@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 [Flags]
 public enum GeneratorBehavior
 {
     Default = 0x0,
-    DapperContrib = 0x1,
-    Comment = 0x2
+    View = 0x1,
+    DapperContrib = 0x2,
+    Comment = 0x4
 }
 
 public static class PocoClassGenerator
@@ -62,73 +62,70 @@ public static class PocoClassGenerator
 
     public static string GenerateAllTables(this System.Data.Common.DbConnection connection, GeneratorBehavior generatorBehavior = GeneratorBehavior.Default)
     {
-        if (connection.State != ConnectionState.Open)
-            connection.Open();
+        if (connection.State != ConnectionState.Open) connection.Open();
 
         var conneciontName = connection.GetType().Name.ToLower();
         var tables = new List<string>();
-        using (var command = connection.CreateCommand())
+        var sql = generatorBehavior.HasFlag(GeneratorBehavior.View) ? TableSchemaSqls[conneciontName].Split("where")[0] : TableSchemaSqls[conneciontName];
+        using (var command = connection.CreateCommand(sql))
+        using (var reader = command.ExecuteReader())
         {
-            command.CommandText = TableSchemaSqls[conneciontName];
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                    tables.Add(reader.GetString(0));
-            }
+            while (reader.Read())
+                tables.Add(reader.GetString(0));
         }
 
         var sb = new StringBuilder();
         sb.AppendLine("namespace Models { ");
         tables.ForEach(table => sb.Append(connection.GenerateClass(
-               string.Format(QuerySqls[conneciontName], table), generatorBehavior: generatorBehavior
+               string.Format(QuerySqls[conneciontName], table), table, generatorBehavior: generatorBehavior
         )));
         sb.AppendLine("}");
         return sb.ToString();
     }
 
     public static string GenerateClass(this IDbConnection connection, string sql, GeneratorBehavior generatorBehavior)
-    {
-        return connection.GenerateClass(sql, null, generatorBehavior);
-    }
+         => connection.GenerateClass(sql, null, generatorBehavior);
 
     public static string GenerateClass(this IDbConnection connection, string sql, string className = null, GeneratorBehavior generatorBehavior = GeneratorBehavior.Default)
     {
-        if (connection.State != ConnectionState.Open)
-            connection.Open();
+        if (connection.State != ConnectionState.Open) connection.Open();
 
-        var cmd = connection.CreateCommand();
-        cmd.CommandText = sql;
+        var builder = new StringBuilder();
 
-
-        using (var reader = cmd.ExecuteReader(CommandBehavior.KeyInfo | CommandBehavior.SingleRow))
+        //Get Table Name
+        //Fix : [When View using CommandBehavior.KeyInfo will get duplicate columns ¡P Issue #8 ¡P shps951023/PocoClassGenerator](https://github.com/shps951023/PocoClassGenerator/issues/8 )
+        var isFromMutiTables = false;
+        using (var command = connection.CreateCommand(sql))
+        using (var reader = command.ExecuteReader(CommandBehavior.KeyInfo | CommandBehavior.SingleRow))
         {
-            var builder = new StringBuilder();
+            var tables = reader.GetSchemaTable().Select().Select(s => s["BaseTableName"] as string).Distinct();
+            var tableName = string.IsNullOrWhiteSpace(className) ? tables.First() ?? "Info" : className;
+
+            isFromMutiTables = tables.Count() > 1;
+
+            if (generatorBehavior.HasFlag(GeneratorBehavior.DapperContrib) && !isFromMutiTables)
+                builder.AppendFormat("	[Dapper.Contrib.Extensions.Table(\"{0}\")]{1}", tableName, Environment.NewLine);
+            builder.AppendFormat("	public class {0}{1}", tableName.Replace(" ", ""), Environment.NewLine);
+            builder.AppendLine("	{");
+        }
+
+        //Get Columns 
+        var behavior = isFromMutiTables ? (CommandBehavior.SchemaOnly | CommandBehavior.SingleRow) : (CommandBehavior.KeyInfo | CommandBehavior.SingleRow);
+
+        using (var command = connection.CreateCommand(sql))
+        using (var reader = command.ExecuteReader(behavior))
+        {
             do
             {
-                if (reader.FieldCount <= 1) continue;
-
                 var schema = reader.GetSchemaTable();
                 foreach (DataRow row in schema.Rows)
                 {
-                    if (string.IsNullOrWhiteSpace(builder.ToString()))
-                    {
-                        var tableName = string.IsNullOrWhiteSpace(className) ? row["BaseTableName"] as string ?? "Info" : className;
-                        if ((generatorBehavior & GeneratorBehavior.DapperContrib) != 0)
-                        {
-                            builder.AppendFormat("	[Dapper.Contrib.Extensions.Table(\"{0}\")]{1}", tableName, Environment.NewLine);
-                        }
-
-                        builder.AppendFormat("	public class {0}{1}", tableName.Replace(" ", ""), Environment.NewLine);
-                        builder.AppendLine("	{");
-                    }
-
-
                     var type = (Type)row["DataType"];
                     var name = TypeAliases.ContainsKey(type) ? TypeAliases[type] : type.FullName;
                     var isNullable = (bool)row["AllowDBNull"] && NullableTypes.Contains(type);
                     var collumnName = (string)row["ColumnName"];
 
-                    if ((generatorBehavior & GeneratorBehavior.Comment) != 0)
+                    if (generatorBehavior.HasFlag(GeneratorBehavior.Comment) && !isFromMutiTables)
                     {
                         var comments = new[] { "DataTypeName", "IsUnique", "IsKey", "IsAutoIncrement", "IsReadOnly" }
                                .Select(s =>
@@ -144,7 +141,7 @@ public static class PocoClassGenerator
                         builder.AppendFormat("		/// <summary>{0}</summary>{1}", sComment, Environment.NewLine);
                     }
 
-                    if ((generatorBehavior & GeneratorBehavior.DapperContrib) != 0)
+                    if (generatorBehavior.HasFlag(GeneratorBehavior.DapperContrib) && !isFromMutiTables)
                     {
                         var isKey = (bool)row["IsKey"];
                         var isAutoIncrement = (bool)row["IsAutoIncrement"];
@@ -166,4 +163,14 @@ public static class PocoClassGenerator
             return builder.ToString();
         }
     }
+
+    #region Private
+    private static string[] Split(this string text, string splitText) => text.Split(new[] { splitText }, StringSplitOptions.None);
+    private static IDbCommand CreateCommand(this IDbConnection connection, string sql)
+    {
+        var cmd = connection.CreateCommand();
+        cmd.CommandText = sql;
+        return cmd;
+    }
+    #endregion
 }

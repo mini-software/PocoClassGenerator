@@ -12,15 +12,20 @@
     <PackageProjectUrl>https://github.com/shps951023/PocoClassGenerator</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/2019-01-17.13.18.32-image.png</PackageIconUrl>
 
-    <AssemblyVersion>0.9.3</AssemblyVersion>
-    <FileVersion>0.9.3</FileVersion>
-    <Version>0.9.3</Version>
+    <AssemblyVersion>0.9.4</AssemblyVersion>
+    <FileVersion>0.9.4</FileVersion>
+    <Version>0.9.4</Version>
     <PackageId>PocoClassGenerator</PackageId>
     <NeutralLanguage>en</NeutralLanguage>
     <Product>PocoClassGenerator</Product>
     <PackageTags>PocoClassGenerator,SQL,Mini,Easy,Dapper</PackageTags>
     <RepositoryType>Github</RepositoryType>
-    <PackageReleaseNotes>### version 0.9.3
+    <PackageReleaseNotes>### version 0.9.4
+- [X] Fix View Support 
+  - [X] [When View using CommandBehavior.KeyInfo will get duplicate columns · Issue #8](https://github.com/shps951023/PocoClassGenerator/issues/8)
+  - [X] [Fix View Use BaseTableName Not ViewName · Issue #7](https://github.com/shps951023/PocoClassGenerator/issues/7)
+
+### version 0.9.3
 - [X] Fix : Generate Class Name By Full Name To Avoid Not Using Problem
 - [X] Fix : If table/view name contains white space then replace it by empty string
 
