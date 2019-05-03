@@ -1,5 +1,7 @@
 ### version 0.9.4
-- [X] Remove View Support
+- [X] Fix View Support 
+  - [X] [When View using CommandBehavior.KeyInfo will get duplicate columns ¡P Issue #8](https://github.com/shps951023/PocoClassGenerator/issues/8)
+  - [X] [Fix View Use BaseTableName Not ViewName ¡P Issue #7](https://github.com/shps951023/PocoClassGenerator/issues/7)
 
 ### version 0.9.3
 - [X] Fix : Generate Class Name By Full Name To Avoid Not Using Problem
