@@ -1,4 +1,4 @@
-[![NuGet](https://img.shields.io/nuget/v/PocoClassGenerator.svg)](https://www.nuget.org/packages/HtmlTableHelper)
+[![NuGet](https://img.shields.io/nuget/v/PocoClassGenerator.svg)](https://www.nuget.org/packages/PocoClassGenerator)
 ![](https://img.shields.io/nuget/dt/PocoClassGenerator.svg)
 
 ---
