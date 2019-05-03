@@ -46,14 +46,6 @@ using (var conn = GetConnection())
 **The Online Demo : [POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle](https://dotnetfiddle.net/yeuK1E)
 ![20190502132948-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190502132948-image.png)**
 
-#### Generate View
-```C#
-using (var conn = GetConnection())
-{
-    var result = conn.GenerateAllTables(GeneratorBehavior.View);
-    Console.WriteLine(result);
-}
-```
 
 #### Generate Comment
 
@@ -65,12 +57,12 @@ using (var conn = GetConnection())
 }
 ```
 
-#### Generate Comment and View and Dapper.Contrib
+#### Generate Comment and Dapper.Contrib
 
 ```C#
 using (var conn = GetConnection())
 {
-    var result = conn.GenerateAllTables(GeneratorBehavior.Comment | GeneratorBehavior.View | GeneratorBehavior.DapperContrib);
+    var result = conn.GenerateAllTables(GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
     Console.WriteLine(result);
 }
 ```
