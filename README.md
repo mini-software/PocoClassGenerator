@@ -99,6 +99,8 @@ using (var connection = Connection)
 
 
 #### DataTablePocoClass
+Code at [DataTablePocoClassGenerator.cs](https://github.com/shps951023/PocoClassGenerator/blob/master/PocoClassGenerator/PocoClassGenerator/DataTablePocoClassGenerator.cs)
+
 ```C#
 var dt = new DataTable();
 dt.TableName = "TestTable";
