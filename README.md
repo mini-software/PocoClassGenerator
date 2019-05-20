@@ -13,6 +13,13 @@ PocoClassGenerator is started with `Necroskillz`'s POCO Generator [Generate C# P
 - mini and faster (only in 5 seconds generate 100 tables code)
 - Use appropriate dialect schema table SQL for each database query
 
+### DEMO
+- [DataTable POCO Class Generator  | .NET Fiddle](https://dotnetfiddle.net/vVeYwA)
+- [POCO Class Generator GenerateAllTables  | .NET Fiddle](https://dotnetfiddle.net/GkdqsU)
+
+![20190430141947-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190430141947-image.png)
+
+
 ### GetStart
 
 👇First :  Copy&Paste [PocoClassGenerator.cs](PocoClassGenerator/PocoClassGenerator/PocoClassGenerator.cs) Code to your project or LINQPad.  
@@ -29,9 +36,6 @@ using (var connection = Connection)
 }
 ```
 
-**The Online Demo : [POCO Class Generator GenerateAllTables  | .NET Fiddle](https://dotnetfiddle.net/GkdqsU)**
-
-![20190430141947-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190430141947-image.png)
 
 #### Support Dapper Contrib POCO Class
 - Just call method with `GeneratorBehavior.DapperContrib`
