@@ -57,12 +57,22 @@ using (var conn = GetConnection())
 }
 ```
 
-#### Generate Comment and Dapper.Contrib
+#### Generate View
 
 ```C#
 using (var conn = GetConnection())
 {
-    var result = conn.GenerateAllTables(GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
+    var result = conn.GenerateAllTables(GeneratorBehavior.View);
+    Console.WriteLine(result);
+}
+```
+
+#### Generate View and Comment and Dapper.Contrib
+
+```C#
+using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.View | GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
     Console.WriteLine(result);
 }
 ```
@@ -85,4 +95,20 @@ using (var connection = Connection)
 	var classCode = connection.GenerateClass("with EMP as (select 1 ID,'WeiHan' Name,25 Age) select * from EMP", className: "EMP");
 	Console.WriteLine(classCode);
 }
+```
+
+
+#### DataTablePocoClass
+```C#
+var dt = new DataTable();
+dt.TableName = "TestTable";
+dt.Columns.Add(new DataColumn() { ColumnName = "ID", DataType = typeof(string) });
+
+var result = dt.GenerateClass();
+var expect =
+@"public class TestTable
+{
+public string ID { get; set; }
+}";
+Assert.Equal(expect, result);
 ```
