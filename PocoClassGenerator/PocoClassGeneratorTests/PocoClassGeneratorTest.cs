@@ -1,10 +1,30 @@
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using Xunit;
 
 namespace PocoClassGeneratorTests
 {
+    public class DataTablePocoClassGeneratorTest
+    {
+        [Fact]
+        public void DataTablePocoClassTest()
+        {
+            var dt = new DataTable();
+            dt.TableName = "TestTable";
+            dt.Columns.Add(new DataColumn() { ColumnName = "ID", DataType = typeof(string) });
+
+            var result = dt.GenerateClass();
+            var expect =
+@"public class TestTable
+{
+	public string ID { get; set; }
+}";
+            Assert.Equal(expect, result);
+        }
+    }
+
     public class PocoClassGeneratorTest
     {
         static readonly string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=SSPI;Initial Catalog=GeneratorDataBase;";

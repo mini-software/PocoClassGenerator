@@ -96,3 +96,19 @@ using (var connection = Connection)
 	Console.WriteLine(classCode);
 }
 ```
+
+
+#### DataTablePocoClass
+```C#
+var dt = new DataTable();
+dt.TableName = "TestTable";
+dt.Columns.Add(new DataColumn() { ColumnName = "ID", DataType = typeof(string) });
+
+var result = dt.GenerateClass();
+var expect =
+@"public class TestTable
+{
+public string ID { get; set; }
+}";
+Assert.Equal(expect, result);
+```

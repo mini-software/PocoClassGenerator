@@ -1,3 +1,6 @@
+### version 0.9.5
+- [X] Support DataTable Generate POCO Class 
+
 ### version 0.9.4
 - [X] Fix View Support 
   - [X] [When View using CommandBehavior.KeyInfo will get duplicate columns ¡P Issue #8](https://github.com/shps951023/PocoClassGenerator/issues/8)

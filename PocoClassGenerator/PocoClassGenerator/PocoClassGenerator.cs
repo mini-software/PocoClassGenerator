@@ -13,7 +13,7 @@ public enum GeneratorBehavior
     Comment = 0x4
 }
 
-public static class PocoClassGenerator
+public static partial class PocoClassGenerator
 {
     #region Property
     private static readonly Dictionary<Type, string> TypeAliases = new Dictionary<Type, string> {
