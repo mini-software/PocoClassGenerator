@@ -14,8 +14,11 @@ PocoClassGenerator is started with `Necroskillz`'s POCO Generator [Generate C# P
 - Use appropriate dialect schema table SQL for each database query
 
 ### DEMO
-- [DataTable POCO Class Generator  | .NET Fiddle](https://dotnetfiddle.net/vVeYwA)
+- [POCOGenerator Generate Class By Dynamic SQL | .NET Fiddle](https://dotnetfiddle.net/bDdSCA)
+![20191009102303.png](https://i.loli.net/2019/10/09/4AOsU2X8PWBcbGS.png)
 - [POCO Class Generator GenerateAllTables  | .NET Fiddle](https://dotnetfiddle.net/GkdqsU)
+- [DataTable POCO Class Generator  | .NET Fiddle](https://dotnetfiddle.net/vVeYwA)
+
 
 ![20190430141947-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190430141947-image.png)
 
