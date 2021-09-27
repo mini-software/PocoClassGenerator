@@ -1,4 +1,4 @@
-create database GeneratorDataBase;
+﻿create database GeneratorDataBase;
 use GeneratorDataBase;
 
 CREATE TABLE [dbo].[table1](
