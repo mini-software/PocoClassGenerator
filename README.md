@@ -20,7 +20,7 @@ PocoClassGenerator is started with `Necroskillz`'s POCO Generator [Generate C# P
 - [DataTable POCO Class Generator  | .NET Fiddle](https://dotnetfiddle.net/vVeYwA)
 
 
-![20190430141947-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190430141947-image.png)
+![image](https://github.com/user-attachments/assets/235c4952-259b-4ecc-90b2-d0138c17316c)
 
 
 ### GetStart
@@ -50,8 +50,9 @@ using (var conn = GetConnection())
     Console.WriteLine(result);
 }
 ```
-**The Online Demo : [POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle](https://dotnetfiddle.net/yeuK1E)
-![20190502132948-image.png](https://raw.githubusercontent.com/shps951023/ImageHosting/master/img/20190502132948-image.png)**
+**The Online Demo : [POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle](https://dotnetfiddle.net/yeuK1E)**
+
+![image](https://github.com/user-attachments/assets/2989c2dc-8c06-4732-9069-a09605e1b18f)
 
 
 #### Generate Comment
